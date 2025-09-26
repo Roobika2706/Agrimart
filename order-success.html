@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Successful</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .back-button {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎉 Order Placed Successfully!</h1>
+        <p>Thank you for your order. You will receive a confirmation email.</p>
+        <button class="back-button" onclick="goBack()">Back to Market</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = "localmarket.html";
+        }
+        
+    </script>
+
+</body>
+</html>

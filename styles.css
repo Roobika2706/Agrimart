@@ -1,0 +1,196 @@
+/* Reset default margin and padding for the body */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f8ff; /* Light background color */
+}
+
+/* Container for the main content */
+.container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 1000px;
+}
+
+/* Main heading */
+h1 {
+    font-size: 3em;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Layout for the login forms */
+.login-forms {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Individual login section */
+.login-section {
+    width: 45%;
+    padding: 25px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Login section heading */
+.login-section h2 {
+    font-size: 2.2em;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Form inputs */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Styling for the text and password fields */
+input[type="text"], input[type="password"] {
+    padding: 12px;
+    margin: 12px;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+/* On focus, change the border color */
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #2980b9;
+    outline: none;
+}
+
+/* Styling for the login buttons */
+button {
+    font-size: 1.2em;
+    padding: 15px 30px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 80%;
+}
+
+/* Farmers login button styling */
+button.farmers {
+    background-color: #27ae60;
+    color: white;
+}
+
+/* Local market login button styling */
+button.local-market {
+    background-color: #2980b9;
+    color: white;
+}
+
+/* On hover, reduce opacity for buttons */
+button:hover {
+    opacity: 0.8;
+}
+
+/* Farmers upload page styling */
+.upload-section {
+    margin-top: 40px;
+    padding: 25px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Upload page heading */
+.upload-section h2 {
+    font-size: 2.2em;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* File input for image upload */
+input[type="file"] {
+    padding: 12px;
+    margin: 12px 0;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+/* Styling for upload button */
+button.upload-button {
+    background-color: #27ae60;
+    color: white;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 80%;
+    transition: background-color 0.3s ease;
+}
+
+/* On hover, reduce opacity for upload button */
+button.upload-button:hover {
+    opacity: 0.8;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    /* Stack the login forms vertically on smaller screens */
+    .login-forms {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Each login form takes up 100% of the container */
+    .login-section {
+        width: 100%;
+    }
+
+    /* Make the buttons a bit smaller on mobile */
+    button {
+        width: 100%;
+    }
+}
+/* Style for the language label */
+label[for="language-select"] {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    display: inline-block;
+    color: #2e7d32;
+}
+
+/* Style for the dropdown itself */
+#language-select {
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    margin-bottom: 1.5rem;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Optional: Add hover effect */
+#language-select:hover {
+    border-color: #4caf50;
+}
+

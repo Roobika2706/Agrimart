@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+    }
+    input, select {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #45a049; }
+    .message { margin-top: 15px; color: red; font-weight: bold; }
+    .tabs { display: flex; justify-content: space-around; margin-bottom: 20px; }
+    .tab { padding: 10px; cursor: pointer; background: #ddd; border-radius: 5px; }
+    .tab.active { background: #4CAF50; color: white; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <div class="tabs">
+      <div id="userTab" class="tab active">User Login</div>
+      <div id="adminTab" class="tab">Admin Login</div>
+    </div>
+
+    <!-- User Login Form -->
+    <form id="userForm">
+      <input type="email" id="userEmail" placeholder="Enter Email" required>
+      <input type="password" id="userPassword" placeholder="Enter Password" required>
+      <select id="userRole" required>
+        <option value="" disabled selected>Select Role</option>
+        <option value="farmer">Farmer</option>
+        <option value="market">Local Market</option>
+      </select>
+      <button type="submit">Login</button>
+      <div class="message" id="userMessage"></div>
+    </form>
+
+    <!-- Admin Login Form -->
+    <form id="adminForm" style="display: none;">
+      <input type="email" id="adminEmail" placeholder="Enter Admin Email" required value="roobi27kumar@gmail.com">
+      <input type="password" id="adminPassword" placeholder="Enter Admin Password" required value="abcd">
+      <button type="submit">Login</button>
+      <div class="message" id="adminMessage"></div>
+    </form>
+  </div>
+
+  <script>
+    const userTab = document.getElementById('userTab');
+    const adminTab = document.getElementById('adminTab');
+    const userForm = document.getElementById('userForm');
+    const adminForm = document.getElementById('adminForm');
+    const userMessage = document.getElementById('userMessage');
+    const adminMessage = document.getElementById('adminMessage');
+
+    const ADMIN_EMAIL = "roobi27kumar@gmail.com";
+    const ADMIN_PASSWORD = "abcd";
+
+    // Tab switching
+    userTab.addEventListener('click', () => {
+      userTab.classList.add('active');
+      adminTab.classList.remove('active');
+      userForm.style.display = 'block';
+      adminForm.style.display = 'none';
+      userMessage.textContent = '';
+      adminMessage.textContent = '';
+    });
+    adminTab.addEventListener('click', () => {
+      adminTab.classList.add('active');
+      userTab.classList.remove('active');
+      adminForm.style.display = 'block';
+      userForm.style.display = 'none';
+      userMessage.textContent = '';
+      adminMessage.textContent = '';
+    });
+
+    // User Login
+    userForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('userEmail').value;
+      const password = document.getElementById('userPassword').value;
+      const role = document.getElementById('userRole').value;
+
+      try {
+        const res = await fetch("http://localhost:5000/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, role })
+        });
+
+        const data = await res.json();
+
+        if (res.status !== 200) {
+          userMessage.textContent = data.message || "Login failed";
+        } else {
+          if (role === "farmer") window.location.href = "farmers.html";
+          else if (role === "market") window.location.href = "localmarket.html";
+        }
+      } catch (err) {
+        userMessage.textContent = "Server error";
+        console.error(err);
+      }
+    });
+
+    // Admin Login
+    adminForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('adminEmail').value;
+      const password = document.getElementById('adminPassword').value;
+
+      if(email === ADMIN_EMAIL && password === ADMIN_PASSWORD){
+        window.location.href = "admin.html";
+      } else {
+        adminMessage.textContent = "Invalid email or password";
+      }
+    });
+  </script>
+</body>
+</html>

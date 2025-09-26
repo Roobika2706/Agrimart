@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Farmers - Upload Your Products</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .view-requests-btn {
+    padding: 12px 25px;
+    background-color: #007BFF; /* Bootstrap-like blue */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.view-requests-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+        .container {
+            text-align: center;
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+        .input-field {
+            margin: 10px auto;
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            display: block;
+        }
+        .upload-button {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        .upload-button:hover {
+            background-color: darkgreen;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product-card img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<button id="view-requests-btn" class="view-requests-btn">View Requests</button>
+
+<div class="container">
+    <h1>Farmers - Upload Your Products</h1>
+
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" name="image" id="file-input" class="input-field" accept="image/*" required>
+        <input type="text" name="name" id="name" placeholder="Name" class="input-field" required>
+        <input type="text" name="quantity" id="quantity" placeholder="Quantity" class="input-field" required>
+        <input type="text" name="price" id="price" placeholder="Price" class="input-field" required>
+        <input type="email" name="email" id="email" placeholder="Email" class="input-field" required>
+        <button type="submit" class="upload-button">Upload</button>
+    </form>
+
+    <h2 style="margin-top: 40px;">Uploaded Products</h2>
+    <div id="product-list" class="product-grid"></div>
+</div>
+
+<script>
+document.getElementById('upload-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('image', document.getElementById('file-input').files[0]);
+    formData.append('name', document.getElementById('name').value);
+    formData.append('quantity', document.getElementById('quantity').value);
+    formData.append('price', document.getElementById('price').value);
+    formData.append('email', document.getElementById('email').value);
+
+    fetch('http://localhost:5000/upload-product', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+        document.getElementById('upload-form').reset();
+        fetchProducts(); // Refresh the product list after upload
+    })
+    .catch(error => {
+        console.error("Upload failed:", error);
+        alert("Upload failed. Please try again.");
+    });
+});
+
+function fetchProducts() {
+    fetch('http://localhost:5000/api/products')
+        .then(res => res.json())
+        .then(products => {
+            const list = document.getElementById('product-list');
+            list.innerHTML = '';
+
+            products.forEach(product => {
+                const div = document.createElement('div');
+                div.classList.add('product-card');
+                div.innerHTML = `
+                    <img src="http://localhost:5000${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>Quantity: ${product.quantity}</p>
+                    <p>Price: ₹${product.price}</p>
+                    <p>Email: ${product.email}</p>
+                `;
+                list.appendChild(div);
+            });
+        });
+}
+
+fetchProducts(); // Load products on page load
+</script>
+<script>
+document.getElementById('view-requests-btn').addEventListener('click', function() {
+    // You can pass the farmer's email as a query parameter if needed
+    const farmerEmail = document.getElementById('email').value; // email input from upload form
+    if (!farmerEmail) {
+        alert("Please enter your email in the upload form first!");
+        return;
+    }
+    // Navigate to viewrequests.html with email as query parameter
+    window.location.href = `viewrequests.html?farmerEmail=${encodeURIComponent(farmerEmail)}`;
+});
+</script>
+
+</body>
+</html>
